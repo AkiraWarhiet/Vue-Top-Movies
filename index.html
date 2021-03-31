@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <style>
+    section{
+        display: inline-block;
+        width: 33%;
+    }
+    
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+
+        <sectionlist1 v-bind:themovies="movies"></sectionlist1>
+
+        <sectionlist2 v-bind:themovies="movies"></sectionlist2>
+
+        <sectionlist3 v-bind:themovies="movies"></sectionlist3>
+
+
+        
+
+    </div>
+
+
+
+
+
+    <script>
+     var httpRequest = new XMLHttpRequest()
+        
+        httpRequest.open("get", "https://api.themoviedb.org/3/movie/now_playing?api_key=5f4d55e8ec1912507b6dfa7221bbfc4f&language=en-US&page=1")
+        
+        httpRequest.send(null)
+        
+        httpRequest.onreadystatechange = getFunction;
+        var MovArry = [];
+        function getFunction(){
+
+            if(httpRequest.readyState == 4 && httpRequest.status == 200){
+                        
+                        var Mov = httpRequest.responseText
+                        var jsObject = JSON.parse(Mov)
+                        for (var i = 0; i < 3; i++){
+                            MovArry.push(jsObject.results[i])
+                        }
+                        
+            }return MovArry
+        }
+        console.log(MovArry)
+
+    
+    
+    var app = new Vue ({
+    
+    el: "#app",
+    data:
+    {
+    movies: MovArry,
+    
+    }
+    })
+
+    
+
+
+
+        Vue.component("sectionlist1", {
+            props:["themovies"],
+            template:
+    `       <section>
+            <div class="card" style="width: 18rem;">
+            <img v-bind:src="imgsrc1" class="card-img-top" >
+            <div class="card-body">
+            <h5 class="card-title">{{app.movies[0].title}}</h5>
+            <p class="card-text">{{app.movies[0].overview}}</p>
+            </div>
+            </div>
+            </section>
+    `,
+
+    data: function()
+    {
+        return {
+            imgsrc1 : "https://image.tmdb.org/t/p/w500" + app.movies[0].poster_path,
+         
+        }
+    }
+})
+
+Vue.component("sectionlist2", {
+            props:["themovies"],
+            template:
+    `       <section>
+            <div class="card" style="width: 18rem;">
+            <img v-bind:src="imgsrc2" class="card-img-top" >
+            <div class="card-body">
+            <h5 class="card-title">{{app.movies[1].title}}</h5>
+            <p class="card-text">{{app.movies[1].overview}}</p>
+            </div>
+            </div>
+            </section>
+    `,
+
+    data: function()
+    {
+        return {
+           
+            imgsrc2 : "https://image.tmdb.org/t/p/w500" + app.movies[1].poster_path,
+            
+        }
+    }
+})
+
+Vue.component("sectionlist3", {
+            props:["themovies"],
+            template:
+    `       <section>
+            <div class="card" style="width: 18rem;">
+            <img v-bind:src="imgsrc3" class="card-img-top" >
+            <div class="card-body">
+            <h5 class="card-title">{{app.movies[2].title}}</h5>
+            <p class="card-text">{{app.movies[2].overview}}</p>
+            </div>
+            </div>
+            </section>
+    `,
+
+    data: function()
+    {
+        return {
+            
+            imgsrc3 : "https://image.tmdb.org/t/p/w500" + app.movies[2].poster_path,
+        }
+    }
+})
+
+
+
+
+
+
+    </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>
